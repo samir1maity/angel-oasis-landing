@@ -434,7 +434,7 @@ export default function Home() {
           <p className="logo-name">Angel Oasis</p>
           <p className="logo-sub">Spa</p>
         </div>
-        <p>© 2026 Angel Oasis Spa. Crafted for immersive calm.</p>
+        <p>© 2026 Angel Oasis Spa</p>
       </footer>
     </div>
   );
