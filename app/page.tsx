@@ -148,7 +148,9 @@ export default function Home() {
               </button>
             ))}
           </div>
-          <button className="pill">Contact Us</button>
+          <p aria-label="Studio detail">
+            {/* Kolkata Wellness Studio */}
+          </p>
         </nav>
 
         <motion.button
@@ -206,11 +208,6 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* <div className="hero-dots">
-          <span className="dot active" />
-          <span className="dot" />
-          <span className="dot" />
-        </div> */}
       </header>
 
       <motion.section
@@ -336,7 +333,6 @@ export default function Home() {
             <div className="orb" />
             <h3>Evening Bliss</h3>
             <p>Sunset treatments with warm oils and candlelight therapy.</p>
-            <button className="cta ghost">Reserve a Slot</button>
           </motion.div>
         </div>
       </motion.section>
@@ -385,31 +381,6 @@ export default function Home() {
       </motion.section>
 
       <motion.section
-        className="section gallery"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={slowStagger}
-      >
-        <motion.div className="section-head" variants={fadeUp}>
-          <p className="eyebrow">Experience</p>
-          <h2>Golden Moments</h2>
-        </motion.div>
-        <motion.div className="gallery-grid" variants={slowStagger}>
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <motion.div
-              key={item}
-              className={`gallery-card g${item}`}
-              variants={fadeUp}
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="gallery-glow" />
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.section>
-
-      <motion.section
         className="section booking"
         initial="hidden"
         whileInView="visible"
@@ -429,13 +400,23 @@ export default function Home() {
         </motion.div>
       </motion.section>
 
-      <footer className="footer">
-        <div>
-          <p className="logo-name">Angel Oasis</p>
-          <p className="logo-sub">Spa</p>
-        </div>
-        <p>© 2026 Angel Oasis Spa</p>
-      </footer>
+      <a
+        className="whatsapp-fab"
+        href="https://wa.me/919903300339?text=Hi%20Angel%20Oasis%20Spa%2C%20I%20would%20like%20to%20book%20an%20appointment."
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Chat on WhatsApp"
+      >
+        <span className="whatsapp-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img" focusable="false">
+            <path
+              fill="currentColor"
+              d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.54 0 .24 5.3.24 11.82c0 2.08.54 4.11 1.57 5.9L0 24l6.46-1.69a11.76 11.76 0 0 0 5.6 1.43h.01c6.52 0 11.82-5.3 11.82-11.82 0-3.16-1.23-6.13-3.37-8.44Zm-8.46 18.2h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.83 1 1.02-3.73-.24-.38A9.83 9.83 0 0 1 2.1 11.8C2.1 6.42 6.48 2.04 11.86 2.04c2.6 0 5.05 1.01 6.89 2.85a9.67 9.67 0 0 1 2.85 6.9c0 5.4-4.38 9.89-9.84 9.89Zm5.42-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.16-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.47-.88-.79-1.48-1.76-1.66-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.53.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.57-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.87 1.2 3.07c.15.2 2.1 3.2 5.09 4.48.71.31 1.27.5 1.7.64.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"
+            />
+          </svg>
+        </span>
+        <span className="whatsapp-label">WhatsApp</span>
+      </a>
     </div>
   );
 }

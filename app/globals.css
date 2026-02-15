@@ -28,6 +28,13 @@ body {
   overflow-x: hidden;
 }
 
+.section,
+.tiles,
+.footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
+}
+
 button {
   font-family: inherit;
   border: none;
@@ -47,6 +54,10 @@ button {
   position: absolute;
   inset: 0;
   background: linear-gradient(110deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0)) 10%,
+    image-set(
+      url("/site-images/optimized/crystalweed-1600.jpg") 1x,
+      url("/site-images/optimized/crystalweed-2800.jpg") 2x
+    ) right 59%/cover no-repeat,
     url("/hero-photo.svg") right center/cover no-repeat,
     url("/hero.svg") right center/cover no-repeat;
   transform: translateY(calc(var(--scrollY) * -0.06));
@@ -173,12 +184,14 @@ button {
   transform: scaleX(1);
 }
 
-.pill {
-  background: linear-gradient(135deg, #e7c788, #f3e2bb);
-  padding: 10px 20px;
-  border-radius: 999px;
-  font-weight: 600;
-  box-shadow: 0 10px 20px rgba(168, 113, 15, 0.25);
+.nav-note {
+  justify-self: end;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(91, 70, 6, 0.72);
+  border-bottom: 1px solid rgba(168, 113, 15, 0.25);
+  padding-bottom: 4px;
 }
 
 .hero-content {
@@ -293,6 +306,63 @@ button {
 .fab-icon span:nth-child(3) {
   width: 11px;
   animation-delay: 0.4s;
+}
+
+.whatsapp-fab {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, calc(env(safe-area-inset-bottom) + 12px));
+  z-index: 35;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(145deg, #b9e3a5, #a3d78a);
+  color: #2f4a23;
+  text-decoration: none;
+  border-radius: 9999px;
+  padding: 8px 14px 8px 8px;
+  box-shadow:
+    0 18px 36px rgba(74, 111, 58, 0.32),
+    0 6px 16px rgba(54, 82, 42, 0.2);
+  border: 1px solid rgba(128, 178, 104, 0.45);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.whatsapp-fab:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 22px 42px rgba(74, 111, 58, 0.36),
+    0 8px 20px rgba(54, 82, 42, 0.24);
+  filter: saturate(108%);
+}
+
+.whatsapp-fab:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.whatsapp-icon {
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #cceabf, #abd98f);
+  color: #2f5c22;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whatsapp-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.whatsapp-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #2f4a23;
 }
 
 .menu-overlay {
@@ -445,30 +515,6 @@ button {
   font-size: 0.75rem;
 }
 
-.hero-dots {
-  position: absolute;
-  left: 50%;
-  bottom: 24px;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 3;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: rgba(138, 100, 18, 0.35);
-}
-
-.dot.active {
-  width: 16px;
-  background: #c4942f;
-  box-shadow: 0 0 0 6px rgba(196, 148, 47, 0.2);
-  animation: pulse 2.8s ease-in-out infinite;
-}
-
 .tiles {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -492,7 +538,12 @@ button {
 }
 
 .highlights {
-  background: linear-gradient(180deg, #fff8eb 0%, #f9f0da 100%);
+  background:
+    linear-gradient(180deg, rgba(255, 248, 235, 0.42) 0%, rgba(249, 240, 218, 0.45) 100%),
+    image-set(
+      url("/site-images/optimized/woman-relaxing-spa-1600.jpg") 1x,
+      url("/site-images/optimized/woman-relaxing-spa-2800.jpg") 2x
+    ) center/cover no-repeat;
 }
 
 .highlight-grid {
@@ -504,8 +555,11 @@ button {
 .highlight-card {
   padding: 28px;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.85);
+  background: linear-gradient(140deg, rgba(255, 250, 240, 0.28), rgba(255, 245, 225, 0.14));
+  border: 1px solid rgba(255, 245, 225, 0.45);
   box-shadow: 0 25px 60px rgba(120, 90, 18, 0.16);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
   display: grid;
   gap: 12px;
   position: relative;
@@ -528,7 +582,12 @@ button {
 }
 
 .sanctuary {
-  background: linear-gradient(180deg, #fef7e8 0%, #fffaf1 100%);
+  background:
+    linear-gradient(180deg, rgba(254, 247, 232, 0.42) 0%, rgba(255, 250, 241, 0.45) 100%),
+    image-set(
+      url("/site-images/optimized/pexels-elly-fairytale-1400.jpg") 1x,
+      url("/site-images/optimized/pexels-elly-fairytale-2400.jpg") 2x
+    ) center/cover no-repeat;
 }
 
 .sanctuary-grid {
@@ -584,7 +643,24 @@ button {
 }
 
 .journey {
-  background: linear-gradient(180deg, #fff9ed 0%, #f8edd6 100%);
+  background:
+    linear-gradient(180deg, rgba(255, 249, 237, 0.4) 0%, rgba(248, 237, 214, 0.44) 100%),
+    image-set(
+      url("/site-images/optimized/pexels-yankrukov-1400.jpg") 1x,
+      url("/site-images/optimized/pexels-yankrukov-2400.jpg") 2x
+    ) center/cover no-repeat;
+}
+
+.journey .section-head .eyebrow {
+  color: rgba(64, 44, 9, 0.88);
+}
+
+.journey .section-head h2 {
+  color: #352608;
+}
+
+.journey .section-head p {
+  color: rgba(53, 38, 8, 0.9);
 }
 
 .timeline {
@@ -596,9 +672,10 @@ button {
 .timeline-card {
   padding: 24px;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 250, 242, 0.9);
   box-shadow: 0 20px 50px rgba(120, 90, 18, 0.18);
   transition: transform 0.4s ease;
+  color: #2f2206;
 }
 
 .timeline-card:hover {
@@ -608,50 +685,16 @@ button {
 .timeline-card span {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #a8710f;
+  color: #7f5308;
 }
-
-.gallery {
-  background: linear-gradient(180deg, #fef5e5 0%, #fffaf1 100%);
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.gallery-card {
-  border-radius: 24px;
-  min-height: 180px;
-  background: linear-gradient(135deg, #f1d39d, #fff0d4);
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(120, 90, 18, 0.18);
-  transform-style: preserve-3d;
-  transition: transform 0.5s ease;
-}
-
-.gallery-card:hover {
-  transform: translateY(-6px) rotateX(3deg) rotateY(-3deg);
-}
-
-.gallery-glow {
-  position: absolute;
-  inset: -40% -20%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.7), transparent 70%);
-  animation: shimmer 6s ease-in-out infinite;
-}
-
-.g1 { grid-column: span 4; }
-.g2 { grid-column: span 4; }
-.g3 { grid-column: span 4; }
-.g4 { grid-column: span 7; }
-.g5 { grid-column: span 5; }
-.g6 { grid-column: span 12; min-height: 220px; }
 
 .booking {
-  background: linear-gradient(180deg, #fff7e8 0%, #f5e7cb 100%);
+  background:
+    linear-gradient(180deg, rgba(255, 247, 232, 0.4) 0%, rgba(245, 231, 203, 0.44) 100%),
+    image-set(
+      url("/site-images/optimized/woman-relaxing-spa-1600.jpg") 1x,
+      url("/site-images/optimized/woman-relaxing-spa-2800.jpg") 2x
+    ) center/cover no-repeat;
 }
 
 .booking-panel {
@@ -670,8 +713,30 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 24px;
   color: var(--ink-soft);
   font-size: 0.9rem;
+  border-top: 1px solid rgba(120, 90, 18, 0.16);
+  background: linear-gradient(180deg, rgba(247, 236, 212, 0.92) 0%, rgba(255, 247, 232, 0.95) 100%);
+}
+
+.location-stats {
+  display: grid;
+  gap: 6px;
+}
+
+.location-stats p {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.location-label {
+  min-width: 62px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.65rem;
+  color: rgba(91, 70, 6, 0.65);
 }
 
 .tile {
@@ -714,17 +779,26 @@ button {
 }
 
 .tile.her {
-  background: url("/tile-her.svg") center/cover no-repeat,
+  background: image-set(
+      url("/site-images/optimized/pexels-elly-fairytale-3865828-1400.jpg") 1x,
+      url("/site-images/optimized/pexels-elly-fairytale-3865828-2400.jpg") 2x
+    ) center/cover no-repeat,
     linear-gradient(130deg, #f1d39d 0%, #e8c684 45%, #fff0d4 100%);
 }
 
 .tile.him {
-  background: url("/tile-him.svg") center/cover no-repeat,
+  background: image-set(
+      url("/site-images/optimized/premium-couples-1600.jpg") 1x,
+      url("/site-images/optimized/premium-couples-2800.jpg") 2x
+    ) center/cover no-repeat,
     linear-gradient(130deg, #e7d6aa 0%, #d9c189 45%, #f7edd2 100%);
 }
 
 .tile.couples {
-  background: url("/tile-couples.svg") center/cover no-repeat,
+  background: image-set(
+      url("/site-images/optimized/pexels-olly-1600.jpg") 1x,
+      url("/site-images/optimized/pexels-olly-2800.jpg") 2x
+    ) center/cover no-repeat,
     linear-gradient(130deg, #f0d2a0 0%, #e9c38f 45%, #ffe5c8 100%);
 }
 
@@ -876,10 +950,9 @@ button {
     justify-content: center;
   }
 
-  .pill {
+  .nav-note {
     justify-self: end;
-    padding: 8px 16px;
-    font-size: 0.9rem;
+    font-size: 0.78rem;
   }
 
   .hero-content {
@@ -918,7 +991,23 @@ button {
   }
 
   .hero {
+    min-height: 92vh;
     padding-top: 18px;
+  }
+
+  .hero-bg {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 252, 245, 0.78) 0%,
+        rgba(255, 250, 240, 0.48) 48%,
+        rgba(255, 247, 232, 0.24) 100%
+      ),
+      image-set(
+        url("/site-images/optimized/crystalweed-1600.jpg") 1x,
+        url("/site-images/optimized/crystalweed-2800.jpg") 2x
+      ) 68% 42%/cover no-repeat;
+    transform: none;
+    transition: none;
   }
 
   .nav {
@@ -952,6 +1041,26 @@ button {
     height: 36px;
     right: 16px;
     top: 14px;
+  }
+
+  .whatsapp-fab {
+    right: 14px;
+    bottom: max(14px, calc(env(safe-area-inset-bottom) + 10px));
+    padding: 8px;
+  }
+
+  .whatsapp-label {
+    display: none;
+  }
+
+  .whatsapp-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .whatsapp-icon svg {
+    width: 17px;
+    height: 17px;
   }
 
   .nav-links {
@@ -999,8 +1108,11 @@ button {
     font-size: 0.62rem;
   }
 
-  .pill {
+  .nav-note {
     width: 100%;
+    text-align: center;
+    border-bottom: none;
+    letter-spacing: 0.1em;
   }
 
   .call-panel {
@@ -1042,14 +1154,6 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .g1, .g2, .g3, .g4, .g5, .g6 {
-    grid-column: span 1;
-  }
-
   .booking-panel {
     flex-direction: column;
     text-align: center;
@@ -1058,7 +1162,13 @@ button {
 
   .footer {
     flex-direction: column;
+    align-items: flex-start;
     gap: 12px;
+  }
+
+  .location-stats p {
+    flex-direction: column;
+    gap: 2px;
   }
 }
 
@@ -1068,16 +1178,12 @@ button {
     justify-content: center;
   }
 
-  .hero-dots {
-    bottom: 16px;
-  }
-
   .nav-link {
     font-size: 0.85rem;
   }
 
-  .pill {
-    font-size: 0.9rem;
+  .nav-note {
+    font-size: 0.78rem;
   }
 
   .tile p {
