@@ -15,7 +15,10 @@ const sora = Sora({
 
 export const metadata = {
   title: "Angel Oasis Spa",
-  description: "Angel Oasis Spa — modern wellness rituals with a serene touch."
+  description: "Angel Oasis Spa — modern wellness rituals with a serene touch.",
+  icons: {
+    icon: "/brand-logo-removebg-preview.png"
+  }
 };
 
 export default function RootLayout({

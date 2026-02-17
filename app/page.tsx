@@ -7,6 +7,23 @@ import FooterLegal from "./components/FooterLegal";
 export default function Home() {
   const [callOpen, setCallOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [bookingForm, setBookingForm] = useState({
+    name: "",
+    phone: "",
+    preferredDate: "",
+    preferredTime: "",
+    message: ""
+  });
+  const [bookingSubmitted, setBookingSubmitted] = useState(false);
+
+  const handleBookingChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setBookingForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleBookingSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setBookingSubmitted(true);
+  };
 
   useEffect(() => {
     const root = document.documentElement;
@@ -78,6 +95,11 @@ export default function Home() {
     document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const scrollToBooking = () => {
+    setMenuOpen(false);
+    document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const scrollToTop = () => {
     setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -87,6 +109,7 @@ export default function Home() {
     { label: "Home", onClick: scrollToTop },
     { label: "About Us", onClick: scrollToAbout },
     { label: "Services", onClick: scrollToServices },
+    { label: "Booking", onClick: scrollToBooking },
     { label: "Contacts", onClick: () => setMenuOpen(false) }
   ];
 
@@ -114,7 +137,7 @@ export default function Home() {
               </button>
             ))}
           </div>
-          <button className="cta primary">Free Consultation</button>
+          <button className="cta primary" onClick={() => { scrollToBooking(); setMenuOpen(false); }}>Book Appointment</button>
         </div>
       </div>
       <div className={`call-overlay ${callOpen ? "open" : ""}`}>
@@ -505,7 +528,7 @@ export default function Home() {
       </motion.section>
 
       <motion.section
-        className="section booking"
+        className="section booking-section"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
@@ -520,7 +543,105 @@ export default function Home() {
               consultations.
             </p>
           </div>
-          <button className="cta primary">Join Angel Oasis</button>
+          <button className="cta primary" onClick={scrollToBooking}>Join Angel Oasis</button>
+        </motion.div>
+      </motion.section>
+
+      <motion.section
+        id="booking"
+        className="section book-appointment reveal"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={slowStagger}
+      >
+        <motion.div className="book-appointment-inner" variants={fadeUp}>
+          <div className="section-head book-appointment-head">
+            <p className="eyebrow">Reserve your visit</p>
+            <h2>Book Your Appointment</h2>
+            <p>
+              Fill out the form below and our team will contact you to confirm your session.
+            </p>
+          </div>
+          {bookingSubmitted ? (
+            <div className="booking-success book-appointment-success" role="status">
+              <p>Thank you! We&apos;ll contact you shortly to confirm your booking.</p>
+              <button
+                type="button"
+                className="cta primary"
+                onClick={() => setBookingSubmitted(false)}
+              >
+                Submit another request
+              </button>
+            </div>
+          ) : (
+            <form className="booking-form book-appointment-form" onSubmit={handleBookingSubmit}>
+              <div className="booking-field">
+                <label htmlFor="landing-name">Name</label>
+                <input
+                  id="landing-name"
+                  name="name"
+                  type="text"
+                  value={bookingForm.name}
+                  onChange={handleBookingChange}
+                  required
+                  autoComplete="name"
+                  placeholder="Your name"
+                />
+              </div>
+              <div className="booking-field">
+                <label htmlFor="landing-phone">Phone Number</label>
+                <input
+                  id="landing-phone"
+                  name="phone"
+                  type="tel"
+                  value={bookingForm.phone}
+                  onChange={handleBookingChange}
+                  required
+                  autoComplete="tel"
+                  placeholder="+91 0000000000"
+                />
+              </div>
+              <div className="booking-row">
+                <div className="booking-field">
+                  <label htmlFor="landing-date">Preferred Date</label>
+                  <input
+                    id="landing-date"
+                    name="preferredDate"
+                    type="date"
+                    value={bookingForm.preferredDate}
+                    onChange={handleBookingChange}
+                    required
+                  />
+                </div>
+                <div className="booking-field">
+                  <label htmlFor="landing-time">Preferred Time</label>
+                  <input
+                    id="landing-time"
+                    name="preferredTime"
+                    type="time"
+                    value={bookingForm.preferredTime}
+                    onChange={handleBookingChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="booking-field">
+                <label htmlFor="landing-message">Message</label>
+                <textarea
+                  id="landing-message"
+                  name="message"
+                  value={bookingForm.message}
+                  onChange={handleBookingChange}
+                  rows={4}
+                  placeholder="Any special requests or notes..."
+                />
+              </div>
+              <button type="submit" className="cta primary booking-submit">
+                Request Booking
+              </button>
+            </form>
+          )}
         </motion.div>
       </motion.section>
 
