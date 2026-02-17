@@ -27,27 +27,6 @@ export default function RootLayout({
     <html lang="en" className={`${playfair.variable} ${sora.variable}`}>
       <body>
         {children}
-        <footer className="footer">
-          <div>
-            <p className="logo-name">Angel Oasis</p>
-            <p className="logo-sub">Spa</p>
-          </div>
-          <div className="location-stats" aria-label="Location stats">
-            <p>
-              <span className="location-label">Address</span>
-              <span>166 Jessore Road, Bangur Avenue, Kolkata 700055</span>
-            </p>
-            <p>
-              <span className="location-label">Email</span>
-              <span>hello.angeloasis@gmail.com</span>
-            </p>
-            <p>
-              <span className="location-label">Phone</span>
-              <span>+91 9903300339</span>
-            </p>
-          </div>
-          <p>© 2026 Angel Oasis Spa</p>
-        </footer>
       </body>
     </html>
   );
