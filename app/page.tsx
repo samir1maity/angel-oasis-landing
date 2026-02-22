@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import FooterLegal from "./components/FooterLegal";
+import SpecialOffersCarousel from "./components/SpecialOffersCarousel";
 
 export default function Home() {
   const [callOpen, setCallOpen] = useState(false);
@@ -110,7 +111,7 @@ export default function Home() {
     { label: "About Us", onClick: scrollToAbout },
     { label: "Services", onClick: scrollToServices },
     { label: "Booking", onClick: scrollToBooking },
-    { label: "Contacts", onClick: () => setMenuOpen(false) }
+    // { label: "Contacts", onClick: () => setMenuOpen(false) }
   ];
 
   return (
@@ -386,11 +387,13 @@ export default function Home() {
               <div className="spark" />
               <h3>{item.title}</h3>
               <p>{item.copy}</p>
-              <button className="text-link">Explore</button>
+              {/* <button className="text-link">Explore</button> */}
             </motion.article>
           ))}
         </motion.div>
       </motion.section>
+
+      <SpecialOffersCarousel />
 
       <motion.section
         id="services"
@@ -543,7 +546,7 @@ export default function Home() {
               consultations.
             </p>
           </div>
-          <button className="cta primary" onClick={scrollToBooking}>Join Angel Oasis</button>
+          {/* <button className="cta primary" onClick={scrollToBooking}>Join Angel Oasis</button> */}
         </motion.div>
       </motion.section>
 
@@ -700,11 +703,11 @@ export default function Home() {
           </p>
           <p>
             <span className="location-label">Email</span>
-            <span>hello.angeloasis@gmail.com</span>
+            <a href="mailto:hello.angeloasis@gmail.com">hello.angeloasis@gmail.com</a>
           </p>
           <p>
             <span className="location-label">Phone</span>
-            <span>+91 9903300339</span>
+            <a href="tel:+919903300339">+91 9903300339</a>
           </p>
         </div>
         <p className="footer-copyright">© 2026 Angel Oasis Spa</p>

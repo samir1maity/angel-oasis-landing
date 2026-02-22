@@ -828,6 +828,223 @@ button {
   animation: drift 5s ease-in-out infinite;
 }
 
+/* Special offers carousel */
+.special-offers {
+  padding: 80px 6vw 70px;
+  background: linear-gradient(180deg, rgba(252, 246, 234, 0.6) 0%, rgba(248, 240, 222, 0.5) 100%);
+  overflow: hidden;
+}
+
+.carousel-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.carousel-head {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.carousel-head .eyebrow {
+  color: var(--gold-soft);
+  margin-bottom: 6px;
+}
+
+.carousel-head h2 {
+  font-family: var(--font-display, "Playfair Display", serif);
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.carousel-btn {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(200, 170, 100, 0.45);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.carousel-btn:hover {
+  background: rgba(255, 250, 240, 0.98);
+  transform: scale(1.06);
+  box-shadow: 0 8px 24px rgba(120, 90, 18, 0.2);
+}
+
+.carousel-btn:focus-visible {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 2px;
+}
+
+.carousel-track {
+  flex: 1;
+  min-width: 0;
+  min-height: 200px;
+  position: relative;
+}
+
+.carousel-card {
+  width: 100%;
+  padding: 36px 32px;
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(255, 253, 248, 0.98), rgba(252, 245, 230, 0.95));
+  border: 1px solid rgba(230, 210, 170, 0.5);
+  box-shadow: 0 20px 56px rgba(120, 90, 18, 0.14);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.carousel-card-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(232, 200, 120, 0.2);
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.carousel-card-badge-pulse {
+  animation: carousel-badge-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes carousel-badge-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.92; }
+}
+
+.carousel-card h3 {
+  font-family: var(--font-display, "Playfair Display", serif);
+  font-size: clamp(1.35rem, 2vw, 1.6rem);
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 4px;
+  line-height: 1.25;
+}
+
+.carousel-card p {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+.carousel-card-cta {
+  align-self: flex-start;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gold);
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.carousel-card-cta:hover {
+  color: var(--ink);
+  border-bottom-color: var(--gold-soft);
+}
+
+.carousel-dots-wrap {
+  margin-top: 24px;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.carousel-progress-track {
+  margin-top: 14px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(200, 170, 100, 0.25);
+  overflow: hidden;
+}
+
+.carousel-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-soft), var(--gold));
+  box-shadow: 0 0 10px rgba(232, 200, 120, 0.5);
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(200, 170, 100, 0.4);
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.carousel-dot:hover {
+  background: rgba(168, 113, 15, 0.5);
+}
+
+.carousel-dot.active {
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  transform: scale(1.2);
+  box-shadow: 0 2px 8px rgba(168, 113, 15, 0.3);
+}
+
+@media (max-width: 767px) {
+  .special-offers {
+    padding: 60px 5vw 56px;
+  }
+
+  .carousel-head {
+    margin-bottom: 28px;
+  }
+
+  .carousel-wrapper {
+    gap: 10px;
+  }
+
+  .carousel-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .carousel-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .carousel-card {
+    padding: 28px 22px;
+  }
+
+  .carousel-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .carousel-card p {
+    font-size: 0.9rem;
+  }
+}
+
 .sanctuary {
   background:
     linear-gradient(180deg, rgba(254, 247, 232, 0.42) 0%, rgba(255, 250, 241, 0.45) 100%),
@@ -1168,6 +1385,20 @@ button {
   display: flex;
   gap: 8px;
   align-items: baseline;
+}
+
+.location-stats a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.location-stats a:hover {
+  text-decoration: underline;
+}
+
+.location-stats a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 .location-label {
