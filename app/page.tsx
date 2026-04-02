@@ -5,25 +5,138 @@ import { motion } from "framer-motion";
 import FooterLegal from "./components/FooterLegal";
 import SpecialOffersCarousel from "./components/SpecialOffersCarousel";
 
+type BookingFormState = {
+  name: string;
+  phone: string;
+  preferredDate: string;
+  preferredTime: string;
+  message: string;
+};
+
+type BookingSubmissionStatus = "idle" | "submitting" | "success" | "error";
+
+const initialBookingFormState: BookingFormState = {
+  name: "",
+  phone: "",
+  preferredDate: "",
+  preferredTime: "",
+  message: ""
+};
+
 export default function Home() {
   const [callOpen, setCallOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [bookingForm, setBookingForm] = useState({
-    name: "",
-    phone: "",
-    preferredDate: "",
-    preferredTime: "",
-    message: ""
-  });
-  const [bookingSubmitted, setBookingSubmitted] = useState(false);
+  const [bookingForm, setBookingForm] = useState(initialBookingFormState);
+  const [bookingStatus, setBookingStatus] = useState<BookingSubmissionStatus>("idle");
+  const [bookingError, setBookingError] = useState("");
+  const bookingSubmitted = bookingStatus === "success";
+  const bookingSubmitting = bookingStatus === "submitting";
 
   const handleBookingChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    console.log("[home-booking] field changed", {
+      name: e.target.name,
+      value: e.target.value
+    });
+
+    if (bookingStatus === "error") {
+      setBookingError("");
+      setBookingStatus("idle");
+    }
+
     setBookingForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
+  const handleBookingSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setBookingSubmitted(true);
+
+    const payload = {
+      name: bookingForm.name.trim(),
+      phone: bookingForm.phone.trim(),
+      preferredDate: bookingForm.preferredDate,
+      preferredTime: bookingForm.preferredTime,
+      message: bookingForm.message.trim()
+    };
+
+    console.log("[home-booking] submit triggered", {
+      payload,
+      currentStatus: bookingStatus
+    });
+
+    setBookingError("");
+    setBookingStatus("submitting");
+
+    try {
+      console.log("[home-booking] submitting request", {
+        endpoint: "/api/booking",
+        payload
+      });
+
+      const response = await fetch("/api/booking", {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const contentType = response.headers.get("content-type") ?? "";
+      const responseHeaders = Object.fromEntries(response.headers.entries());
+      const data = contentType.includes("application/json")
+        ? await response.json().catch(() => null)
+        : await response.text().catch(() => "");
+
+      console.log("[home-booking] response received", {
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        contentType,
+        headers: responseHeaders,
+        data
+      });
+
+      if (!response.ok) {
+        const message =
+          typeof data === "object" &&
+          data !== null &&
+          "error" in data &&
+          typeof data.error === "string"
+            ? data.error
+            : typeof data === "string" && data.trim()
+              ? data.trim()
+              : "Unable to submit your booking request.";
+
+        throw new Error(message);
+      }
+
+      if (
+        typeof data === "object" &&
+        data !== null &&
+        "success" in data &&
+        data.success === false
+      ) {
+        throw new Error(
+          "error" in data && typeof data.error === "string"
+            ? data.error
+            : "Unable to submit your booking request."
+        );
+      }
+
+      console.log("[home-booking] request completed successfully");
+      setBookingStatus("success");
+      setBookingForm(initialBookingFormState);
+    } catch (err) {
+      console.error("[home-booking] request failed", {
+        error: err,
+        message: err instanceof Error ? err.message : "Unknown error",
+        name: err instanceof Error ? err.name : "UnknownError",
+        stack: err instanceof Error ? err.stack : undefined
+      });
+      setBookingStatus("error");
+      setBookingError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again."
+      );
+    }
   };
 
   useEffect(() => {
@@ -572,13 +685,21 @@ export default function Home() {
               <button
                 type="button"
                 className="cta primary"
-                onClick={() => setBookingSubmitted(false)}
+                onClick={() => {
+                  setBookingStatus("idle");
+                  setBookingError("");
+                  setBookingForm(initialBookingFormState);
+                }}
               >
                 Submit another request
               </button>
             </div>
           ) : (
-            <form className="booking-form book-appointment-form" onSubmit={handleBookingSubmit}>
+            <form
+              className="booking-form book-appointment-form"
+              onSubmit={handleBookingSubmit}
+              aria-busy={bookingSubmitting}
+            >
               <div className="booking-field">
                 <label htmlFor="landing-name">Name</label>
                 <input
@@ -590,6 +711,7 @@ export default function Home() {
                   required
                   autoComplete="name"
                   placeholder="Your name"
+                  disabled={bookingSubmitting}
                 />
               </div>
               <div className="booking-field">
@@ -603,6 +725,7 @@ export default function Home() {
                   required
                   autoComplete="tel"
                   placeholder="+91 0000000000"
+                  disabled={bookingSubmitting}
                 />
               </div>
               <div className="booking-row">
@@ -615,6 +738,7 @@ export default function Home() {
                     value={bookingForm.preferredDate}
                     onChange={handleBookingChange}
                     required
+                    disabled={bookingSubmitting}
                   />
                 </div>
                 <div className="booking-field">
@@ -626,6 +750,7 @@ export default function Home() {
                     value={bookingForm.preferredTime}
                     onChange={handleBookingChange}
                     required
+                    disabled={bookingSubmitting}
                   />
                 </div>
               </div>
@@ -638,10 +763,32 @@ export default function Home() {
                   onChange={handleBookingChange}
                   rows={4}
                   placeholder="Any special requests or notes..."
+                  disabled={bookingSubmitting}
                 />
               </div>
-              <button type="submit" className="cta primary booking-submit">
-                Request Booking
+              <p className="booking-helper" aria-live="polite">
+                {bookingSubmitting
+                  ? "Submitting your booking request..."
+                  : "All fields marked above help us confirm your appointment faster."}
+              </p>
+              {bookingError ? (
+                <p role="alert" className="booking-error">
+                  {bookingError}
+                </p>
+              ) : null}
+              <button
+                type="submit"
+                className="cta primary booking-submit"
+                disabled={bookingSubmitting}
+              >
+                {bookingSubmitting ? (
+                  <>
+                    <span className="booking-spinner" aria-hidden="true" />
+                    Sending request...
+                  </>
+                ) : (
+                  "Request Booking"
+                )}
               </button>
             </form>
           )}
